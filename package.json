@@ -1,0 +1,17 @@
+{
+	"files": [
+	],
+	"name": "phantomjs-mammoth",
+	"version": "0.0.1",
+	"license": {
+		"type": "MIT",
+		"url": "http://www.opensource.org/licenses/mit-license.php"
+	},
+	"repository": {
+		"type": "git",
+		"url": "http://github.com/gromnitsky/phantomjs-mammoth"
+	},
+	"dependencies": {
+		"optparse": "~1.0.3"
+	}
+}

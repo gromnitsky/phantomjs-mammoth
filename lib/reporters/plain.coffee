@@ -21,9 +21,9 @@ class Plain
     testPassed: (name) ->
         console.log "+ #{name}: ok"
 
-    testFailed: (name, err) ->
+    testFailed: (name, backtrace) ->
         console.error "- #{name}: FAIL"
-        console.error err.stack
+        console.error backtrace
 
 
 module.exports = new Plain()

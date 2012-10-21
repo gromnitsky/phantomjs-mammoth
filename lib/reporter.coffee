@@ -33,7 +33,7 @@ class Reporter
     testPassed: (name) ->
         @reporter.testPassed name
 
-    testFailed: (name, err) ->
-        @reporter.testFailed name, err
+    testFailed: (name, backtrace) ->
+        @reporter.testFailed name, backtrace
 
 module.exports = Reporter

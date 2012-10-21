@@ -22,18 +22,17 @@ Available options:
 
 <pre>
 $ cat test/smoke.coffee
-assert = require '../lib/assert'
+# pay attention to how chai is required
+assert = require('chai/chai.js').assert
 
 suite = {
     setup: ->
         console.log '(setup)'
         @one = 1
-        @two = 2
+        @zero = 0
 
     teardown: ->
         console.log '(teardown)'
-        @one--
-        @two--
 
     '2+2 is 4': ->
         assert.equal 2+2, 4
@@ -44,9 +43,8 @@ suite = {
     'war is peace': ->
         assert.ok @one
 
-    # will fail
     'ignorance is strength': ->
-        assert 1
+        asser1 @zero
 
     'freedom is slavery': ->
         assert.ok 1
@@ -61,23 +59,22 @@ Suite smoke.coffee:
 (setup)
 + 2+2 is 4: ok
 - water is wet: FAIL
-Error: assert.equal failed: wet != dry
-    at /home/alex/lib/software/alex/phantomjs-mammoth/lib/assert.coffee:10
-    at /home/alex/lib/software/alex/phantomjs-mammoth/test/smoke.coffee:21
-    at /home/alex/lib/software/alex/phantomjs-mammoth/lib/suite.coffee:119
-    at /home/alex/lib/software/alex/phantomjs-mammoth/lib/suite.coffee:73
-    at Suite (/home/alex/lib/software/alex/phantomjs-mammoth/lib/suite.coffee:30)
+OMG! Error: expected 'wet' to equal 'dry'
+    at /home/alex/lib/software/alex/phantomjs-mammoth/test/smoke.coffee:19
+    at /home/alex/lib/software/alex/phantomjs-mammoth/lib/suite.coffee:121
+    at /home/alex/lib/software/alex/phantomjs-mammoth/lib/suite.coffee:74
+    at Suite (/home/alex/lib/software/alex/phantomjs-mammoth/lib/suite.coffee:31)
     at bin/phantomjs-mammoth.coffee:114
-    at bin/phantomjs-mammoth.coffee:121
+    at bin/phantomjs-mammoth.coffee:124
 + war is peace: ok
 - ignorance is strength: FAIL
-TypeError: '[object Object]' is not a function (evaluating 'assert(1)')
-    at /home/alex/lib/software/alex/phantomjs-mammoth/test/smoke.coffee:27
-    at /home/alex/lib/software/alex/phantomjs-mammoth/lib/suite.coffee:119
-    at /home/alex/lib/software/alex/phantomjs-mammoth/lib/suite.coffee:73
-    at Suite (/home/alex/lib/software/alex/phantomjs-mammoth/lib/suite.coffee:30)
+ReferenceError: Can't find variable: asser1
+    at /home/alex/lib/software/alex/phantomjs-mammoth/test/smoke.coffee:25
+    at /home/alex/lib/software/alex/phantomjs-mammoth/lib/suite.coffee:121
+    at /home/alex/lib/software/alex/phantomjs-mammoth/lib/suite.coffee:74
+    at Suite (/home/alex/lib/software/alex/phantomjs-mammoth/lib/suite.coffee:31)
     at bin/phantomjs-mammoth.coffee:114
-    at bin/phantomjs-mammoth.coffee:121
+    at bin/phantomjs-mammoth.coffee:124
 + freedom is slavery: ok
 (teardown)
 

@@ -78,15 +78,25 @@ class Suite
             ok = true
         catch e
             @failed++
-            @stat.reporter.testFailed name, e
+            @stat.reporter.testFailed name, @getBacktrace(e)
 
             if @conf.bail
                 skipped = @stat.testsSkipped + (@stat.testsTotal - 1)
-#                console.log "#{@stat.testsSkipped} #{skipped}"
                 @stat.testsSkipped = skipped
                 @bailed = true
 
         @stat.reporter.testPassed name if ok
 
+    getBacktrace: (err) ->
+        return '' unless err instanceof Error
+
+        lines = err.stack.split '\n'
+        if err.name == 'AssertionError'
+            # probably from chai
+            f = lines[0]
+            lines = lines[3..-1]
+            lines.unshift "OMG! Error: #{f}"
+
+        lines.join '\n'
 
 module.exports = Suite

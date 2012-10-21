@@ -1,15 +1,14 @@
-assert = require '../lib/assert'
+# pay attention to how chai is required
+assert = require('chai/chai.js').assert
 
 suite = {
     setup: ->
         console.log '(setup)'
         @one = 1
-        @two = 2
+        @zero = 0
 
     teardown: ->
         console.log '(teardown)'
-        @one--
-        @two--
 
     '2+2 is 4': ->
         assert.equal 2+2, 4
@@ -20,9 +19,8 @@ suite = {
     'war is peace': ->
         assert.ok @one
 
-    # will fail
     'ignorance is strength': ->
-        assert 1
+        asser1 @zero
 
     'freedom is slavery': ->
         assert.ok 1

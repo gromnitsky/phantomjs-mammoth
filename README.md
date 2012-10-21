@@ -57,35 +57,36 @@ Freak show begins
 
 Suite smoke.coffee:
 (setup)
-+ 2+2 is 4: ok
-- water is wet: FAIL
++ 2+2 is 4: ok (1 ms)
+- water is wet: FAIL (3 ms)
 OMG! Error: expected 'wet' to equal 'dry'
     at /home/alex/lib/software/alex/phantomjs-mammoth/test/smoke.coffee:19
-    at /home/alex/lib/software/alex/phantomjs-mammoth/lib/suite.coffee:121
-    at /home/alex/lib/software/alex/phantomjs-mammoth/lib/suite.coffee:74
-    at Suite (/home/alex/lib/software/alex/phantomjs-mammoth/lib/suite.coffee:31)
+    at /home/alex/lib/software/alex/phantomjs-mammoth/lib/suite.coffee:123
+    at /home/alex/lib/software/alex/phantomjs-mammoth/lib/suite.coffee:75
+    at Suite (/home/alex/lib/software/alex/phantomjs-mammoth/lib/suite.coffee:32)
     at bin/phantomjs-mammoth.coffee:114
     at bin/phantomjs-mammoth.coffee:124
-+ war is peace: ok
-- ignorance is strength: FAIL
++ war is peace: ok (0 ms)
+- ignorance is strength: FAIL (1 ms)
 ReferenceError: Can't find variable: asser1
     at /home/alex/lib/software/alex/phantomjs-mammoth/test/smoke.coffee:25
-    at /home/alex/lib/software/alex/phantomjs-mammoth/lib/suite.coffee:121
-    at /home/alex/lib/software/alex/phantomjs-mammoth/lib/suite.coffee:74
-    at Suite (/home/alex/lib/software/alex/phantomjs-mammoth/lib/suite.coffee:31)
+    at /home/alex/lib/software/alex/phantomjs-mammoth/lib/suite.coffee:123
+    at /home/alex/lib/software/alex/phantomjs-mammoth/lib/suite.coffee:75
+    at Suite (/home/alex/lib/software/alex/phantomjs-mammoth/lib/suite.coffee:32)
     at bin/phantomjs-mammoth.coffee:114
     at bin/phantomjs-mammoth.coffee:124
-+ freedom is slavery: ok
++ freedom is slavery: ok (0 ms)
 (teardown)
+Suite time: 5 ms
 
 Suits total / :( / tests total / skipped / :(
 1 0 5 0 2
+Elapsed: 39 ms
 </pre>
 
 ## TODO
 
-- time
-- add more succinct reporter
+- add more reporters (dot, tap)
 
 ## License
 

@@ -7,9 +7,16 @@ class Stat
         @testsTotal = 0
         @testsSkipped = 0
         @testsFailed = 0
-        
+
     setup: ->
         @reporter.setup()
+        @timeStart = @currentTime()
+
+    elapsed: (start) ->
+        new Date().getTime() - start
+
+    currentTime: ->
+        new Date().getTime()
 
     printResults: ->
         @reporter.teardown {
@@ -18,6 +25,7 @@ class Stat
             testsTotal: @testsTotal
             testsSkipped: @testsSkipped
             testsFailed: @testsFailed
+            elapsed: @elapsed(@timeStart)
         }
 
 module.exports = Stat

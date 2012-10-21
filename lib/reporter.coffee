@@ -24,16 +24,16 @@ class Reporter
     suiteBegin: (name) ->
         @reporter.suiteBegin name
 
-    suiteEnd: (name) ->
-        @reporter.suiteEnd name
+    suiteEnd: (name, elapsed) ->
+        @reporter.suiteEnd name, elapsed
 
     testBegin: (name) ->
         @reporter.testBegin name
 
-    testPassed: (name) ->
-        @reporter.testPassed name
+    testPassed: (name, elapsed) ->
+        @reporter.testPassed name, elapsed
 
-    testFailed: (name, backtrace) ->
-        @reporter.testFailed name, backtrace
+    testFailed: (name, backtrace, elapsed) ->
+        @reporter.testFailed name, backtrace, elapsed
 
 module.exports = Reporter

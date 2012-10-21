@@ -18,8 +18,7 @@ syscmd(`bin/phantomjs-mammoth.coffee test/smoke.coffee')
 
 ## TODO
 
-- time
-- add more succinct reporter
+- add more reporters (dot, tap)
 
 ## License
 

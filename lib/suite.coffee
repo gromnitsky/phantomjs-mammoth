@@ -20,11 +20,12 @@ class Suite
         @stat.reporter.suiteBegin @name()
 
         @bailed = false
+        @timeStart = @stat.currentTime()
         @runAll()
 
         @stat.testsFailed += @failed
         @stat.suitsFailed++ if @failed == @size()
-        @stat.reporter.suiteEnd @name()
+        @stat.reporter.suiteEnd @name(), (@stat.elapsed @timeStart)
 
     name: ->
         u.basename @file
@@ -73,19 +74,20 @@ class Suite
         @stat.reporter.testBegin name
         ok = false
 
+        startTime = @stat.currentTime()
         try
             @suite[name]()
             ok = true
         catch e
             @failed++
-            @stat.reporter.testFailed name, @getBacktrace(e)
+            @stat.reporter.testFailed name, @getBacktrace(e), @stat.elapsed(startTime)
 
             if @conf.bail
                 skipped = @stat.testsSkipped + (@stat.testsTotal - 1)
                 @stat.testsSkipped = skipped
                 @bailed = true
 
-        @stat.reporter.testPassed name if ok
+        @stat.reporter.testPassed name, @stat.elapsed(startTime) if ok
 
     getBacktrace: (err) ->
         return '' unless err instanceof Error

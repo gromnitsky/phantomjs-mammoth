@@ -19,6 +19,7 @@ class Suite
         @stat.testsTotal += @size()
         @stat.reporter.suiteBegin @name()
 
+        @bailed = false
         @runAll()
 
         @stat.testsFailed += @failed
@@ -41,7 +42,9 @@ class Suite
         if typeof @suite.setup == "function"
             @suite.setup()
 
-        @runTest idx for idx in @getTests()
+        for idx in @getTests()
+            @runTest idx
+            break if @bailed
 
         if typeof @suite.teardown == "function"
             @suite.teardown()
@@ -76,6 +79,12 @@ class Suite
         catch e
             @failed++
             @stat.reporter.testFailed name, e
+
+            if @conf.bail
+                skipped = @stat.testsSkipped + (@stat.testsTotal - 1)
+#                console.log "#{@stat.testsSkipped} #{skipped}"
+                @stat.testsSkipped = skipped
+                @bailed = true
 
         @stat.reporter.testPassed name if ok
 

@@ -91,7 +91,9 @@ stat = new Stat reporter
 
 stat.setup()
 
-new Suite(stat, idx, conf) for idx in args[1..-1]
+for idx in args[1..-1]
+    s = new Suite(stat, idx, conf)
+    break if s.bailed
 
 stat.printResults()
 

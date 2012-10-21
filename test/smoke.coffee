@@ -20,6 +20,7 @@ suite = {
     'war is peace': ->
         assert.ok @one
 
+    # will fail
     'ignorance is strength': ->
         assert 1
 

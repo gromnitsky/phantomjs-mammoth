@@ -1,6 +1,6 @@
 class Plain
     constructor: ->
-        @desc = "Plain text, no colors"
+        @desc = "plain text, verbose, no colors"
 
     setup: ->
         console.log "Freak show begins\n"
@@ -23,7 +23,7 @@ class Plain
 
     testFailed: (name, err) ->
         console.error "- #{name}: FAIL"
-        console.error err.message
+        console.error err.stack
 
 
 module.exports = new Plain()

@@ -11,8 +11,8 @@ class Reporter
     setup: ->
         @reporter.setup()
 
-    teardown: (suitsTotal, suitsFailed, testsTotal, testsFailed) ->
-        @reporter.teardown suitsTotal, suitsFailed, testsTotal, testsFailed
+    teardown: (stat) ->
+        @reporter.teardown stat
 
     suiteBegin: (name) ->
         @reporter.suiteBegin name

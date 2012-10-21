@@ -5,12 +5,19 @@ class Stat
         @suitsTotal = 0
         @suitsFailed = 0
         @testsTotal = 0
+        @testsSkipped = 0
         @testsFailed = 0
         
     setup: ->
         @reporter.setup()
 
     printResults: ->
-        @reporter.teardown @suitsTotal, @suitsFailed, @testsTotal, @testsFailed
+        @reporter.teardown {
+            suitsTotal: @suitsTotal
+            suitsFailed: @suitsFailed
+            testsTotal: @testsTotal
+            testsSkipped: @testsSkipped
+            testsFailed: @testsFailed
+        }
 
 module.exports = Stat

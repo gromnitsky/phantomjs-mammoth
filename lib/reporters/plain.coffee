@@ -5,9 +5,9 @@ class Plain
     setup: ->
         console.log "Freak show begins\n"
 
-    teardown: (suitsTotal, suitsFailed, testsTotal, testsFailed) ->
-        console.log "Suits total / :( / tests total / :("
-        console.log "#{suitsTotal} #{suitsFailed} #{testsTotal} #{testsFailed}"
+    teardown: (stat) ->
+        console.log "Suits total / :( / tests total / skipped / :("
+        console.log "#{stat.suitsTotal} #{stat.suitsFailed} #{stat.testsTotal} #{stat.testsSkipped} #{stat.testsFailed}"
 
     suiteBegin: (name) ->
         console.log "Suite #{name}:"

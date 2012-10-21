@@ -6,7 +6,7 @@ fs = require 'fs'
 optparse = require 'optparse'
 
 u = require '../lib/cliutils'
-Suit = require '../lib/suit'
+Suite = require '../lib/suite'
 Stat = require '../lib/stat'
 Reporter = require '../lib/reporter'
 
@@ -99,7 +99,7 @@ stat = new Stat reporter
 
 stat.setup()
 
-new Suit(stat, idx, conf) for idx in args[1..-1]
+new Suite(stat, idx, conf) for idx in args[1..-1]
 
 stat.printResults()
 

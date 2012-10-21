@@ -1,12 +1,19 @@
 class Reporter
-    constructor: (name) ->
-        throw new Error "reporter: invalid reporter" unless name?
+    constructor: (@reporter) ->
+        throw new Error "reporter: invalid reporter" unless @reporter?.desc?
 
-        @reporter = null
+    @load: (name, onerror) ->
+        r = null
         try
-           @reporter = require "./reporters/#{name}"
-        catch e
-            throw new Error "reporter: cannot load reporter '#{name}': #{e.message}"
+            r = require "./reporters/#{name}"
+        catch e_local
+            # not found, try a system one
+            try
+                r = require name
+            catch e_system
+                onerror name, e_local, e_system
+                return null
+        r
 
     setup: ->
         @reporter.setup()

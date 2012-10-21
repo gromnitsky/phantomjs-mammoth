@@ -14,24 +14,19 @@ prootdir = (u.dirname (fs.absolute sys.args[0])) + '/..'
 
 conf = {
     verbose: 0
-    reporter: 'plain'
+    reporter: null
     grep: null
     grep_invert: false
     bail: false
 }
 
-reporter_find = (name, onerror) ->
-    r = null
-    try
-        r = require "../lib/reporters/#{name}"
-    catch e_local
-        # not found, try a system one
-        try
-            r = require name
-        catch e_system
-            onerror name, e_local, e_system
-            return null
-    r
+reporter_load = (name) ->
+    Reporter.load name, (name, e_local, e_system) ->
+        u.errx 0, "cannot load '#{name}' reporter"
+        phantom.exit u.EX_UNAVAILABLE if conf.verbose == 0
+
+        console.error "\nEmbedded: #{e_local.stack}"
+        console.error "\nSystem: #{e_system.stack}"
 
 parse_clo = ->
     opt = [
@@ -59,11 +54,7 @@ parse_clo = ->
         phantom.exit u.EX_OK
 
     p.on 'reporter', (unused, val) ->
-        reporter_find val, (name, e_local, e_system) ->
-            console.error "cannot find '#{name}' reporter"
-            phantom.exit u.EX_UNAVAILABLE if conf.verbose == 0
-            console.error "Embedded: #{e_local.stack}\nSystem: #{e_system.stack}"
-        conf.reporter = val
+        conf.reporter = reporter_load val
 
     p.on 'grep', (unused, val) ->
         re = null
@@ -79,7 +70,7 @@ parse_clo = ->
 
     p.on 'list-reporters', ->
         for idx in (fs.list "#{prootdir}/lib/reporters") when idx != '.' && idx != '..'
-            r = reporter_find idx
+            r = Reporter.load idx
             console.log "#{u.basename idx, '.coffee'}: #{r.desc}"
         phantom.exit u.EX_OK
 
@@ -94,7 +85,8 @@ console.log p unless args.length > 1
 
 # Main
 
-reporter = new Reporter(conf.reporter)
+conf.reporter = reporter_load 'plain' unless conf.reporter
+reporter = new Reporter conf.reporter
 stat = new Stat reporter
 
 stat.setup()

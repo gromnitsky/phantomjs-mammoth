@@ -19,10 +19,18 @@ class CliUtils
     @EX_NOPERM = 77
     @EX_CONFIG = 78
 
-    @basename: (file_name) ->
+    @basename: (file_name, ext = '') ->
         return '' unless file_name?
-        file_name.replace /.*\/([^/]+)$/, '$1'
-    
+        r = file_name.replace /.*\/([^/]+)$/, '$1'
+        if ext?
+            end = r.lastIndexOf ext
+            r = r[0...end] if end != -1
+        r
+
+    @dirname: (file_name) ->
+        return '' unless file_name?
+        file_name.replace /(.*)\/[^/]+$/, '$1'
+        
     @pnGet: ->
         CliUtils.basename sys.args[0] || 'unknown'
 

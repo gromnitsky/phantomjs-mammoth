@@ -29,5 +29,10 @@ class Plain
         console.error "- #{name}: FAIL (#{ms(elapsed)})"
         console.error backtrace
 
+    err: (msg) ->
+        console.error msg
+
+    warn: (msg) ->
+        console.error msg
 
 module.exports = new Plain()

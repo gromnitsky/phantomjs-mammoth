@@ -36,4 +36,10 @@ class Reporter
     testFailed: (name, backtrace, elapsed) ->
         @reporter.testFailed name, backtrace, elapsed
 
+    err: (msg) ->
+        @reporter.err msg
+
+    warn: (msg) ->
+        @reporter.warn msg
+
 module.exports = Reporter

@@ -4,13 +4,14 @@ u = require '../lib/cliutils'
 class Suite
     constructor: (@stat, @file, @conf) ->
         throw new Error 'suite: invalid stat object' unless @stat?
+        throw new Error 'suite: empty file name' unless @file?
 
         @suite = {}
         @file = fs.absolute @file
         try
            @suite = require @file
         catch e
-            u.warnx "suite: cannot load test suite '#{@name()}': #{e.message}\n"
+            @stat.reporter.warn "suite: cannot load test suite '#{@name()}': #{e.message}\n"
             @stat.suitsFailed++
             return
 
@@ -44,8 +45,8 @@ class Suite
             try
                 @suite[name]()
             catch e
-                console.error "Error in #{name} hook:"
-                console.error e.stack
+                @stat.reporter.err "Error in #{name} hook:"
+                @stat.reporter.err e.stack
                 return false
         true
 
@@ -108,9 +109,14 @@ class Suite
         if err.name == 'AssertionError'
             # probably from chai
             f = lines[0]
-            lines = lines[3..-1]
-            lines.unshift "OMG! Error: #{f}"
+            lines = lines[Suite.backtraceFindFile(lines, @file)..-1]
+            lines.unshift "OMG! #{err.name}: #{f}"
 
         lines.join '\n'
+
+    @backtraceFindFile: (lines, file_name) ->
+        return 0 unless (lines instanceof Array) && file_name?
+        (return index if idx.match(file_name)) for idx, index in lines
+        0
 
 module.exports = Suite

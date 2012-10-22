@@ -39,16 +39,28 @@ class Suite
     size: ->
         @getTests().length
 
+    runHook: (name) ->
+        if typeof @suite[name] == "function"
+            try
+                @suite[name]()
+            catch e
+                console.error "Error in #{name} hook:"
+                console.error e.stack
+                return false
+        true
+
     runAll: ->
-        if typeof @suite.setup == "function"
-            @suite.setup()
+        # skip all tests if setup is broken
+        if ! @runHook 'setup'
+            @stat.testsSkipped = @size()
+            return
 
         for idx in @getTests()
             @runTest idx
             break if @bailed
 
-        if typeof @suite.teardown == "function"
-            @suite.teardown()
+        # if teardown failed, just warn a user
+        @runHook 'teardown'
 
     # Used in isTest() only.
     _markAsSkipped: ->

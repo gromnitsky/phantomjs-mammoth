@@ -19,7 +19,7 @@ suite = {
             new Reporter {}
         , Error
 
-    'init ok': ->
+    'init fine': ->
         assert.doesNotThrow =>
             new Reporter @plain
         , Error

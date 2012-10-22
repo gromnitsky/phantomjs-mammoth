@@ -41,7 +41,7 @@ parse_clo = ->
         ['--list-reporters', 'display available reporters & exit']
     ]
     p = new optparse.OptionParser opt
-    p.banner = "Usage: #{u.pnGet()}: [options] file.coffee ..."
+    p.banner = "Usage: #{u.pnGet()} [options] file.coffee ..."
 
     p.on 'verbose', -> conf.verbose++
 

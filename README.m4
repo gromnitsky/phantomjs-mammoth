@@ -38,9 +38,9 @@ syscmd(`bin/phantomjs-mammoth.coffee')</pre>
 $ npm install chai
 [...]
 $ cat test/smoke.coffee
-undivert(`test/smoke.coffee')
+undivert(`test/example/smoke.coffee')
 $ phantomjs-mammoth.coffee test/smoke.coffee
-syscmd(`bin/phantomjs-mammoth.coffee test/smoke.coffee')</pre>
+syscmd(`bin/phantomjs-mammoth.coffee test/example/smoke.coffee')</pre>
 
 ## TODO
 

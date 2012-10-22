@@ -29,7 +29,7 @@ recursive search for files or anything. Use Unix utilities & shell
 expansion for that.
 
 <pre>
-Usage: phantomjs-mammoth.coffee: [options] file.coffee ...
+Usage: phantomjs-mammoth.coffee [options] file.coffee ...
 
 Available options:
   -h, --help              output usage information & exit
@@ -83,31 +83,31 @@ Freak show begins
 
 Suite smoke.coffee:
 (setup)
-+ 2+2 is 4: ok (1 ms)
++ 2+2 is 4: ok (0 ms)
 - water is wet: FAIL (2 ms)
 OMG! Error: expected 'wet' to equal 'dry'
-    at /home/alex/lib/software/alex/phantomjs-mammoth/test/smoke.coffee:19
-    at /home/alex/lib/software/alex/phantomjs-mammoth/lib/suite.coffee:123
-    at /home/alex/lib/software/alex/phantomjs-mammoth/lib/suite.coffee:75
+    at /home/alex/lib/software/alex/phantomjs-mammoth/test/example/smoke.coffee:19
+    at /home/alex/lib/software/alex/phantomjs-mammoth/lib/suite.coffee:135
+    at /home/alex/lib/software/alex/phantomjs-mammoth/lib/suite.coffee:89
     at Suite (/home/alex/lib/software/alex/phantomjs-mammoth/lib/suite.coffee:32)
     at bin/phantomjs-mammoth.coffee:115
     at bin/phantomjs-mammoth.coffee:125
-+ war is peace: ok (2 ms)
-- ignorance is strength: FAIL (0 ms)
++ war is peace: ok (0 ms)
+- ignorance is strength: FAIL (1 ms)
 ReferenceError: Can't find variable: asser1
-    at /home/alex/lib/software/alex/phantomjs-mammoth/test/smoke.coffee:25
-    at /home/alex/lib/software/alex/phantomjs-mammoth/lib/suite.coffee:123
-    at /home/alex/lib/software/alex/phantomjs-mammoth/lib/suite.coffee:75
+    at /home/alex/lib/software/alex/phantomjs-mammoth/test/example/smoke.coffee:25
+    at /home/alex/lib/software/alex/phantomjs-mammoth/lib/suite.coffee:135
+    at /home/alex/lib/software/alex/phantomjs-mammoth/lib/suite.coffee:89
     at Suite (/home/alex/lib/software/alex/phantomjs-mammoth/lib/suite.coffee:32)
     at bin/phantomjs-mammoth.coffee:115
     at bin/phantomjs-mammoth.coffee:125
 + freedom is slavery: ok (0 ms)
 (teardown)
-Suite time: 6 ms
+Suite time: 5 ms
 
 Suits total / :( / tests total / skipped / :(
 1 0 5 0 2
-Elapsed: 41 ms
+Elapsed: 38 ms
 </pre>
 
 ## TODO

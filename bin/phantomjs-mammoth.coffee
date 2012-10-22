@@ -23,10 +23,11 @@ conf = {
 reporter_load = (name) ->
     Reporter.load name, (name, e_local, e_system) ->
         u.errx 0, "cannot load '#{name}' reporter"
-        phantom.exit u.EX_UNAVAILABLE if conf.verbose == 0
+        if conf.verbose != 0
+            console.error "\nEmbedded: #{e_local.stack}"
+            console.error "\nSystem: #{e_system.stack}"
 
-        console.error "\nEmbedded: #{e_local.stack}"
-        console.error "\nSystem: #{e_system.stack}"
+        phantom.exit u.EX_UNAVAILABLE
 
 parse_clo = ->
     opt = [
@@ -61,7 +62,7 @@ parse_clo = ->
         try
             re = new RegExp val
         catch e
-            u.errx 1, 'invalid regexp: #{val}'
+            u.errx 1, "invalid regexp: #{val}"
         conf.grep = re
 
     p.on 'invert', -> conf.grep_invert = true
@@ -80,7 +81,9 @@ parse_clo = ->
 
 
 [args, p] = parse_clo()
-console.log p unless args.length > 1
+unless args.length > 1
+    console.log p
+    phantom.exit u.EX_USAGE
 
 
 # Main
@@ -97,4 +100,4 @@ for idx in args[1..-1]
 
 stat.printResults()
 
-phantom.exit (if stat.suitsFailed == 0 then 0 else 1)
+phantom.exit (if stat.testsFailed == 0 then 0 else 1)

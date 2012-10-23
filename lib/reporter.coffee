@@ -15,11 +15,11 @@ class Reporter
                 return null
         r
 
-    setup: ->
-        @reporter.setup()
+    showBegin: ->
+        @reporter.showBegin()
 
-    teardown: (stat) ->
-        @reporter.teardown stat
+    showEnd: (stat) ->
+        @reporter.showEnd stat
 
     suiteBegin: (name) ->
         @reporter.suiteBegin name

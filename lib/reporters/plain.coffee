@@ -4,10 +4,10 @@ class Plain
     constructor: ->
         @desc = "plain text, verbose, no colors"
 
-    setup: ->
+    showBegin: ->
         console.log "Freak show begins\n"
 
-    teardown: (stat) ->
+    showEnd: (stat) ->
         console.log "Suits total / :( / tests total / skipped / :("
         console.log "#{stat.suitsTotal} #{stat.suitsFailed} #{stat.testsTotal} #{stat.testsSkipped} #{stat.testsFailed}"
         console.log "Elapsed: #{ms(stat.elapsed)}"

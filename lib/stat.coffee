@@ -2,14 +2,19 @@ class Stat
     constructor: (@reporter) ->
         throw new Error 'invalid reporter' unless @reporter?
 
+        @metersClean()
+
+    metersClean: ->
         @suitsTotal = 0
         @suitsFailed = 0
         @testsTotal = 0
         @testsSkipped = 0
         @testsFailed = 0
 
-    setup: ->
-        @reporter.setup()
+        @timeStart = @currentTime()
+
+    showBegin: ->
+        @reporter.showBegin()
         @timeStart = @currentTime()
 
     elapsed: (start) ->
@@ -18,8 +23,8 @@ class Stat
     currentTime: ->
         new Date().getTime()
 
-    printResults: ->
-        @reporter.teardown {
+    showEnd: ->
+        @reporter.showEnd {
             suitsTotal: @suitsTotal
             suitsFailed: @suitsFailed
             testsTotal: @testsTotal

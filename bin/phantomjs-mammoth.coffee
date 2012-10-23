@@ -92,12 +92,12 @@ conf.reporter = reporter_load 'plain' unless conf.reporter
 reporter = new Reporter conf.reporter
 stat = new Stat reporter
 
-stat.setup()
+stat.showBegin()
 
 for idx in args[1..-1]
     s = new Suite(stat, idx, conf)
     break if s.bailed
 
-stat.printResults()
+stat.showEnd()
 
 phantom.exit (if stat.testsFailed == 0 then 0 else 1)

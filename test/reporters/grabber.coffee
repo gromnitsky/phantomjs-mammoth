@@ -1,33 +1,34 @@
 class Grabber
     constructor: ->
-        @desc = "for internal testing"
+        @desc = "for internal testing only"
         @collapsar = []
 
-    setup: ->
-        @collapsar.push ["setup"]
+    showBegin: ->
+        @collapsar = []
+        @collapsar.push ["showBegin"]
 
-    teardown: (stat) ->
-        @collapsar.push ["teardown", stat]
+    showEnd: (stat) ->
+        @collapsar.push ["showEnd", stat]
 
     suiteBegin: (name) ->
-        @collapsar.push ["begin", name]
+        @collapsar.push ["suiteBegin", name]
 
     suiteEnd: (name, elapsed) ->
-        @collapsar.push ["end", name, elapsed]
+        @collapsar.push ["suiteEnd", name, elapsed]
 
     testBegin: (name) ->
-        @collapsar.push ["test", "begin", name]
+        @collapsar.push ["testBegin", name]
 
     testPassed: (name, elapsed) ->
-        @collapsar.push ["test", "passed", name, elapsed]
+        @collapsar.push ["testPassed", name, elapsed]
 
     testFailed: (name, backtrace, elapsed) ->
-        @collapsar.push ["test", "failed", name, backtrace, elapsed]
+        @collapsar.push ["testFailed", name, backtrace, elapsed]
 
     err: (msg) ->
-        @collapsar.push ["error", msg]
+        @collapsar.push ["err", msg]
 
     warn: (msg) ->
-        @collapsar.push ["warning", msg]
+        @collapsar.push ["warn", msg]
 
 module.exports = new Grabber()

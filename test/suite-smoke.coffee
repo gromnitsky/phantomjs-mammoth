@@ -20,22 +20,25 @@ suite = {
         , Error
 
     'init fine': ->
+        s = null
         assert.doesNotThrow =>
-            @s1 = new Suite(@stat, "/DOESN'T EXISTS")
+            s = new Suite(@stat, "/DOESN'T EXISTS")
         , Error
-        assert.equal @s1.stat.suitsFailed, 1
+        assert.equal s.stat.suitsFailed, 1
         t = @grabber.collapsar[0]
-        assert.equal t[0], 'warning'
+        assert.equal t[0], 'warn'
         assert.match t[1], /cannot load test suite/
 
-        assert.doesNotThrow =>
-            @s1 = new Suite(@stat, "test/example/smoke-quiet.coffee", {})
-        , Error
-
     'suite 1 stats': ->
-        assert.equal @s1.size(), 5
-        assert.equal @s1.stat.testsSkipped, 0
-        assert.equal @s1.stat.testsFailed, 2
+        @stat.metersClean()
+        s = new Suite(@stat, "test/example/smoke-quiet.coffee", {})
+        
+        assert.equal s.stat.suitsTotal, 1
+        assert.equal s.stat.suitsFailed, 0
+        assert.equal s.size(), 5
+        assert.equal s.stat.testsTotal, 5
+        assert.equal s.stat.testsSkipped, 0
+        assert.equal s.stat.testsFailed, 2
 }
 
 module.exports = suite

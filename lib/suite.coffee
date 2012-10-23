@@ -16,14 +16,16 @@ class Suite
             return
 
         @failed = 0
-        @stat.suitsTotal++
-        @stat.testsTotal += @size()
+        @skipped = 0
         @stat.reporter.suiteBegin @name()
 
         @bailed = false
         @timeStart = @stat.currentTime()
         @runAll()
 
+        @stat.suitsTotal++
+        @stat.testsTotal += @size()
+        @stat.testsSkipped += @skipped
         @stat.testsFailed += @failed
         @stat.suitsFailed++ if @failed == @size()
         @stat.reporter.suiteEnd @name(), (@stat.elapsed @timeStart)
@@ -53,11 +55,11 @@ class Suite
     runAll: ->
         # skip all tests if setup is broken
         if ! @runHook 'setup'
-            @stat.testsSkipped = @size()
+            @skipped += @size()
             return
 
-        for idx in @getTests()
-            @runTest idx
+        for idx, index in @getTests()
+            @runTest idx, index
             break if @bailed
 
         # if teardown failed, just warn a user
@@ -65,7 +67,7 @@ class Suite
 
     # Used in isTest() only.
     _markAsSkipped: ->
-        @stat.testsSkipped++
+        @skipped++
         false
 
     # Analyze name for elegibility as a test. Calculates number of
@@ -83,7 +85,7 @@ class Suite
 
         true
 
-    runTest: (name) ->
+    runTest: (name, index) ->
         @stat.reporter.testBegin name
         ok = false
 
@@ -96,8 +98,7 @@ class Suite
             @stat.reporter.testFailed name, @getBacktrace(e), @stat.elapsed(startTime)
 
             if @conf.bail
-                skipped = @stat.testsSkipped + (@stat.testsTotal - 1)
-                @stat.testsSkipped = skipped
+                @skipped += @size() - index - 1
                 @bailed = true
 
         @stat.reporter.testPassed name, @stat.elapsed(startTime) if ok

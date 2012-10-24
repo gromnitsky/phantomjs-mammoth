@@ -83,31 +83,31 @@ Freak show begins
 
 Suite smoke.coffee:
 (setup)
-+ 2+2 is 4: ok (0 ms)
-- water is wet: FAIL (2 ms)
-OMG! Error: expected 'wet' to equal 'dry'
++ 2+2 is 4                                                                  0 ms
+- water is wet: FAIL                                                        3 ms
+OMG! AssertionError: expected 'wet' to equal 'dry'
     at /home/alex/lib/software/alex/phantomjs-mammoth/test/example/smoke.coffee:19
-    at /home/alex/lib/software/alex/phantomjs-mammoth/lib/suite.coffee:135
-    at /home/alex/lib/software/alex/phantomjs-mammoth/lib/suite.coffee:89
-    at Suite (/home/alex/lib/software/alex/phantomjs-mammoth/lib/suite.coffee:32)
+    at /home/alex/lib/software/alex/phantomjs-mammoth/lib/suite.coffee:148
+    at /home/alex/lib/software/alex/phantomjs-mammoth/lib/suite.coffee:102
+    at Suite (/home/alex/lib/software/alex/phantomjs-mammoth/lib/suite.coffee:42)
     at bin/phantomjs-mammoth.coffee:115
     at bin/phantomjs-mammoth.coffee:125
-+ war is peace: ok (0 ms)
-- ignorance is strength: FAIL (1 ms)
++ war is peace                                                              0 ms
+- ignorance is strength: FAIL                                               0 ms
 ReferenceError: Can't find variable: asser1
     at /home/alex/lib/software/alex/phantomjs-mammoth/test/example/smoke.coffee:25
-    at /home/alex/lib/software/alex/phantomjs-mammoth/lib/suite.coffee:135
-    at /home/alex/lib/software/alex/phantomjs-mammoth/lib/suite.coffee:89
-    at Suite (/home/alex/lib/software/alex/phantomjs-mammoth/lib/suite.coffee:32)
+    at /home/alex/lib/software/alex/phantomjs-mammoth/lib/suite.coffee:148
+    at /home/alex/lib/software/alex/phantomjs-mammoth/lib/suite.coffee:102
+    at Suite (/home/alex/lib/software/alex/phantomjs-mammoth/lib/suite.coffee:42)
     at bin/phantomjs-mammoth.coffee:115
     at bin/phantomjs-mammoth.coffee:125
-+ freedom is slavery: ok (0 ms)
++ freedom is slavery                                                        1 ms
 (teardown)
-Suite time: 5 ms
+Suite time:                                                                11 ms
 
-Suits total / :( / tests total / skipped / :(
-1 0 5 0 2
-Elapsed: 38 ms
+Suits total     Failed          Tests total     Skipped         Failed         
+1               0               5               0               2              
+Elapsed: 57 ms
 </pre>
 
 ## TODO

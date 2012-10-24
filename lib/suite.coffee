@@ -2,14 +2,17 @@ fs = require 'fs'
 u = require '../lib/cliutils'
 
 class Suite
-    constructor: (@stat, @file, @conf) ->
+    constructor: (@stat, @file, @conf = {}) ->
         throw new Error 'suite: invalid stat object' unless @stat?
         throw new Error 'suite: empty file name' unless @file?
+        throw new Error 'suite: no config' unless @conf?
 
         @suite = {}
         @file = fs.absolute @file
+        @stat.suitsTotal++
         try
-           @suite = require @file
+            @suite = require @file
+            throw new Error "no tests found" if u.hashSize(@suite) == 0
         catch e
             @stat.reporter.warn "suite: cannot load test suite '#{@name()}': #{e.message}\n"
             @stat.suitsFailed++
@@ -24,7 +27,6 @@ class Suite
 
         @runAll()
 
-        @stat.suitsTotal++
         @stat.testsTotal += @size()
         @stat.testsSkipped += @skipped
         @stat.testsFailed += @failed

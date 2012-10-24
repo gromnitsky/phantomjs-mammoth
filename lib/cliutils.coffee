@@ -30,7 +30,12 @@ class CliUtils
     @dirname: (file_name) ->
         return '' unless file_name?
         file_name.replace /(.*)\/[^/]+$/, '$1'
-        
+
+    @hashSize: (hash) ->
+        (Object.keys hash).length
+
+    @isNum = (n) -> !isNaN(parseFloat n) && isFinite n
+                
     @pnGet: ->
         CliUtils.basename sys.args[0] || 'unknown'
 

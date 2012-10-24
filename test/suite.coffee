@@ -1,11 +1,10 @@
 assert = require('chai/chai.js').assert
-dump = require 'dir'
 
+u = require '../lib/cliutils'
 Reporter = require '../lib/reporter'
 Stat = require '../lib/stat'
 Suite = require '../lib/suite'
 
-isNum = (n) -> !isNaN(parseFloat n) && isFinite n
 
 suite = {
     setup: ->
@@ -24,11 +23,12 @@ suite = {
 
     'init fine': ->
         s = null
+        @stat.showBegin()
         assert.doesNotThrow =>
             s = new Suite(@stat, "/DOESN'T EXISTS")
         , Error
         assert.equal s.stat.suitsFailed, 1
-        t = @grabber.collapsar[0]
+        t = @grabber.collapsar[1]
         assert.equal t[0], 'warn'
         assert.match t[1], /cannot load test suite/
 
@@ -44,21 +44,21 @@ suite = {
         assert.equal s.stat.testsFailed, 2
 
         assert.equal @grabber.collapsar[3][0], 'testPassed'
-        assert.ok (isNum @grabber.collapsar[3][2])
+        assert.ok (u.isNum @grabber.collapsar[3][2])
         
         assert.equal @grabber.collapsar[5][0], 'testFailed'
         assert.match @grabber.collapsar[5][2], /AssertionError/
-        assert.ok (isNum @grabber.collapsar[5][3])
+        assert.ok (u.isNum @grabber.collapsar[5][3])
 
         assert.equal @grabber.collapsar[7][0], 'testPassed'
-        assert.ok (isNum @grabber.collapsar[7][2])
+        assert.ok (u.isNum @grabber.collapsar[7][2])
 
         assert.equal @grabber.collapsar[9][0], 'testFailed'
         assert.match @grabber.collapsar[9][2], /ReferenceError/
-        assert.ok (isNum @grabber.collapsar[9][3])
+        assert.ok (u.isNum @grabber.collapsar[9][3])
 
         assert.equal @grabber.collapsar[11][0], 'testPassed'
-        assert.ok (isNum @grabber.collapsar[11][2])
+        assert.ok (u.isNum @grabber.collapsar[11][2])
 
     'grep': ->
         @stat.showBegin()
@@ -116,14 +116,43 @@ suite = {
 
     'broken hooks': ->
         @stat.showBegin()
-        s = new Suite(@stat, "test/example/smoke-broken-setup.coffee", {bail: true})
+        s = new Suite(@stat, "test/example/smoke-broken-setup.coffee")
         
         assert.equal s.stat.suitsTotal, 1
         assert.equal s.stat.suitsFailed, 1
         assert.equal s.stat.testsTotal, 5
         assert.equal s.stat.testsSkipped, 5
         assert.equal s.stat.testsFailed, 0
+
+    'empty': ->
+        @stat.showBegin()
+        s = new Suite(@stat, "test/example/empty.js")
         
+        assert.equal s.stat.suitsTotal, 1
+        assert.equal s.stat.suitsFailed, 1
+        assert.equal s.stat.testsTotal, 0
+        assert.equal s.stat.testsSkipped, 0
+        assert.equal s.stat.testsFailed, 0
+
+    'broken': ->
+        @stat.showBegin()
+        s = new Suite(@stat, "test/example/syntax-error.js")
+        
+        assert.equal s.stat.suitsTotal, 1
+        assert.equal s.stat.suitsFailed, 1
+        assert.equal s.stat.testsTotal, 0
+        assert.equal s.stat.testsSkipped, 0
+        assert.equal s.stat.testsFailed, 0
+
+    'fail': ->
+        @stat.showBegin()
+        s = new Suite(@stat, "test/example/one-fail.js")
+        
+        assert.equal s.stat.suitsTotal, 1
+        assert.equal s.stat.suitsFailed, 1
+        assert.equal s.stat.testsTotal, 1
+        assert.equal s.stat.testsSkipped, 0
+        assert.equal s.stat.testsFailed, 1
 }
 
 module.exports = suite

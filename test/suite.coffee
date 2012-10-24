@@ -1,4 +1,5 @@
 assert = require('chai/chai.js').assert
+dump = require 'dir'
 
 Reporter = require '../lib/reporter'
 Stat = require '../lib/stat'
@@ -32,7 +33,7 @@ suite = {
         assert.match t[1], /cannot load test suite/
 
     'suite stats': ->
-        @stat.metersClean()
+        @stat.showBegin()
         s = new Suite(@stat, "test/example/smoke-quiet.coffee", {})
         
         assert.equal s.stat.suitsTotal, 1
@@ -60,7 +61,7 @@ suite = {
         assert.ok (isNum @grabber.collapsar[11][2])
 
     'grep': ->
-        @stat.metersClean()
+        @stat.showBegin()
         s = new Suite(@stat, "test/example/smoke-quiet.coffee", {grep: new RegExp 'war'})
         
         assert.equal s.stat.suitsTotal, 1
@@ -70,8 +71,26 @@ suite = {
         assert.equal s.stat.testsSkipped, 4
         assert.equal s.stat.testsFailed, 0
 
+        @stat.showBegin()
+        s = new Suite(@stat, "test/example/smoke-quiet.coffee", {grep: new RegExp '0f653dab8ff9d31b'})
+
+        assert.equal s.stat.suitsTotal, 1
+        assert.equal s.stat.suitsFailed, 0
+        assert.equal s.stat.testsTotal, 0
+        assert.equal s.stat.testsSkipped, 5
+        assert.equal s.stat.testsFailed, 0
+
+        # continue with the 'show'
+        s = new Suite(@stat, "test/example/smoke-quiet.coffee", {grep: new RegExp 'ignorance|water'})
+
+        assert.equal s.stat.suitsTotal, 1 + 1
+        assert.equal s.stat.suitsFailed, 0 + 1
+        assert.equal s.stat.testsTotal, 0 + 2
+        assert.equal s.stat.testsSkipped, 5 + 3
+        assert.equal s.stat.testsFailed, 0 + 2
+
     'grep invert': ->
-        @stat.metersClean()
+        @stat.showBegin()
         s = new Suite(@stat, "test/example/smoke-quiet.coffee", {
             grep: new RegExp 'war'
             grep_invert: true
@@ -85,7 +104,7 @@ suite = {
         assert.equal s.stat.testsFailed, 2
 
     'bail': ->
-        @stat.metersClean()
+        @stat.showBegin()
         s = new Suite(@stat, "test/example/smoke-quiet.coffee", {bail: true})
         
         assert.equal s.stat.suitsTotal, 1
@@ -94,7 +113,17 @@ suite = {
         assert.equal s.stat.testsTotal, 5
         assert.equal s.stat.testsSkipped, 3
         assert.equal s.stat.testsFailed, 1
-                                
+
+    'broken hooks': ->
+        @stat.showBegin()
+        s = new Suite(@stat, "test/example/smoke-broken-setup.coffee", {bail: true})
+        
+        assert.equal s.stat.suitsTotal, 1
+        assert.equal s.stat.suitsFailed, 1
+        assert.equal s.stat.testsTotal, 5
+        assert.equal s.stat.testsSkipped, 5
+        assert.equal s.stat.testsFailed, 0
+        
 }
 
 module.exports = suite

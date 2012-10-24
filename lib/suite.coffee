@@ -17,17 +17,18 @@ class Suite
 
         @failed = 0
         @skipped = 0
-        @stat.reporter.suiteBegin @name()
-
+        @brokenHook = false
         @bailed = false
+        @stat.reporter.suiteBegin @name()
         @timeStart = @stat.currentTime()
+
         @runAll()
 
         @stat.suitsTotal++
         @stat.testsTotal += @size()
         @stat.testsSkipped += @skipped
         @stat.testsFailed += @failed
-        @stat.suitsFailed++ if @failed == @size()
+        @stat.suitsFailed++ if (@size() && @failed == @size()) || @brokenHook
         @stat.reporter.suiteEnd @name(), (@stat.elapsed @timeStart)
 
     name: ->
@@ -56,6 +57,7 @@ class Suite
         # skip all tests if setup is broken
         if ! @runHook 'setup'
             @skipped += @size()
+            @brokenHook = true
             return
 
         for idx, index in @getTests()

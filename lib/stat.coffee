@@ -14,8 +14,8 @@ class Stat
         @timeStart = @currentTime()
 
     showBegin: ->
+        @metersClean()
         @reporter.showBegin()
-        @timeStart = @currentTime()
 
     elapsed: (start) ->
         new Date().getTime() - start

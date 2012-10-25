@@ -19,6 +19,8 @@ class CliUtils
     @EX_NOPERM = 77
     @EX_CONFIG = 78
 
+    @quiet = false
+
     @basename: (file_name, ext = '') ->
         return '' unless file_name?
         r = file_name.replace /.*\/([^/]+)$/, '$1'
@@ -35,15 +37,52 @@ class CliUtils
         (Object.keys hash).length
 
     @isNum = (n) -> !isNaN(parseFloat n) && isFinite n
-                
+
     @pnGet: ->
-        CliUtils.basename sys.args[0] || 'unknown'
+        @basename sys.args[0] || 'unknown'
 
     @errx: (exit_code = 1, msg) ->
-        console.error "#{CliUtils.pnGet()} error: #{msg}"
+        console.error "#{@pnGet()} error: #{msg}" unless @quiet
         phantom.exit exit_code if exit_code
 
     @warnx: (msg) ->
-        console.error "#{CliUtils.pnGet()} warning: #{msg}"
+        console.error "#{@pnGet()} warning: #{msg}" unless @quiet
+
+    # Print a deep, stringifyed version of an obj
+    @inspect: (obj) ->
+        console.log JSON.stringify(@objInspect(obj), null, '  ') unless @quiet
+
+    @objInspect: (obj, result = {}, stat = {}) ->
+        return obj unless obj?
+        return obj if typeof obj != 'object' && typeof obj != 'function'
+
+        return '[circular reference]' if stat.root == obj
+
+        stat.level ||= 0
+        stat.level += 1 # unused
+        stat.root || = obj
+
+        type = (v) ->
+            r = {}
+            r.type = typeof v
+
+            switch r.type
+                when 'function' then r.val = "[function]"
+                else r.val = v
+            r
+
+        for key, val of obj
+#            console.log "#{key}=#{val}, #{type(val).type}, #{stat.level}"
+            if type(val).type == 'object'
+                result[key] = @objInspect val, result[key], stat
+            else
+                result[key] = type(val).val
+
+        proto = Object.getPrototypeOf obj
+        if proto && @hashSize(proto) != 0
+            result['[prototype]'] = @objInspect proto, {}, stat
+
+        result
+
 
 module.exports = CliUtils
